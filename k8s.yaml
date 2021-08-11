@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: helm-helloworld
+spec:
+  ports:
+    - port: 8080
+  selector:
+    app: helm-helloworld
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helm-helloworld
+spec:
+  selector:
+    matchLabels:
+      app: helm-helloworld
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: helm-helloworld
+    spec:
+      containers:
+        - image: helm-helloworld:1.0
+          name: helm-helloworld
+          env:
+            - name: DATABASE_PORT
+              value: '3306'
+            - name: DATABASE_HOST
+              value: my-release-mysql.default.svc.cluster.local
+            - name: DATABASE_PASSWORD
+              value: 0E5NLqkqPw
+          ports:
+            - containerPort: 8080
+              name: helm-helloworld
