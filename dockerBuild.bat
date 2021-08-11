@@ -1,0 +1,1 @@
+docker build --file=Dockerfile --tag=helm-helloworld:1.0 --rm=true .

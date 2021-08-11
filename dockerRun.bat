@@ -1,0 +1,1 @@
+docker run  -e DATABASE_NAME=my_db helm-helloworld:1.0
