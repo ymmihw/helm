@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helm-helloworld
+spec:
+  selector:
+    matchLabels:
+      app: helm-helloworld
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: helm-helloworld
+    spec:
+      containers:
+      - image: helm-helloworld:1.0
+        name: helm-helloworld
+        env:
+        - name: DATABASE_PORT
+          value: '3306'
+        - name: DATABASE_HOST
+          value: {{ include "helloworld.databaseHost" . | quote }}
+        - name: DATABASE_PASSWORD
+          value: '123'
+        ports:
+        - containerPort: 8080
+          name: helm-helloworld
